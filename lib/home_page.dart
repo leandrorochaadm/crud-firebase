@@ -12,11 +12,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int i = 1;
+  PedidoRepository repository = PedidoRepository();
 
   @override
   Widget build(BuildContext context) {
-    PedidoRepository repository = PedidoRepository();
-
     var ped = PedidoModel(
         endereco: "end $i",
         formaPagamento: "Dinheiro",
@@ -57,12 +56,12 @@ class _HomePageState extends State<HomePage> {
             children: snapshot.data.map((PedidoModel document) {
               return ListTile(
                 title: Text(document.endereco),
-                subtitle: Text(document.idEntregador),
+                subtitle: Text(document.uuid),
                 onTap: () {
                   //abrir detalhes
                 },
                 onLongPress: () {
-                  _showDialogDeletePedido();
+                  _showDialogDeletePedido(document);
                 },
               );
             }).toList(),
@@ -72,7 +71,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _showDialogDeletePedido() {
+  _showDialogDeletePedido(PedidoModel pedido) {
     return showDialog(
         context: context,
         builder: (_) {
@@ -86,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                   child: Text('Não')),
               FlatButton(
                   onPressed: () {
-                    //Excluir Pedido
+                    repository.deletePedido(pedido);
                     Navigator.pop(context);
                   },
                   child: Text('Sim')),

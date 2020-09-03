@@ -24,4 +24,8 @@ class PedidoRepository {
     return _pedidos.snapshots().map(
         (event) => event.docs.map((e) => PedidoModel.fromFirebase(e)).toList());
   }
+
+  Future<void> deletePedido(PedidoModel p) {
+    return _pedidos.doc(p.uuid).delete();
+  }
 }
