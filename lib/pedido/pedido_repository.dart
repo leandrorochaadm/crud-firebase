@@ -5,17 +5,25 @@ class PedidoRepository {
   CollectionReference _pedidos =
       FirebaseFirestore.instance.collection('pedidos');
 
-  Future<void> addPedido() {
-    // Call the user's CollectionReference to add a new user
+  enviarPedido(PedidoModel p) {
+    if (p.uuid == null) {
+      addPedido(p);
+    }
+  }
+
+  Future<void> addPedido(PedidoModel p) {
     return _pedidos
-        .add({
+        .add(
+          /*{
           'endereco': 'end 21',
           'formaPagamento': 'formaPagamento',
           'idCliente': 'idCliente 21',
           'idEntregador': 'idEntregador 21',
           'status': 'status',
-          'troco': 50.0,
-        })
+          'troco': 50.0,          
+          }*/
+          p.toJson(),
+        )
         .then((value) => print("pedidos Added"))
         .catchError((error) => print("Failed to add pedido: $error"));
   }

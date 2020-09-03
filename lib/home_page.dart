@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:motodelivery/pedido/PedidoModel.dart';
+import 'package:motodelivery/pedido/pedido_page.dart';
 import 'package:motodelivery/pedido/pedido_repository.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,24 +17,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var ped = PedidoModel(
-        endereco: "end $i",
-        formaPagamento: "Dinheiro",
-        idCliente: "cliente $i",
-        idEntregador: "entregador $i",
-        status: "entregue",
-        troco: i.toDouble());
-
-    Future<void> addPedido() {
-      // Call the user's CollectionReference to add a new user
-      this.i += 1;
-      return repository.addPedido();
-    }
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          addPedido();
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => PedidoPage(pedido: PedidoModel())));
         },
         child: Icon(Icons.add),
       ),
@@ -52,13 +42,16 @@ class _HomePageState extends State<HomePage> {
           }
 
           return ListView(
-            //children: snapshot.data.map((e)) {
             children: snapshot.data.map((PedidoModel document) {
               return ListTile(
                 title: Text(document.endereco),
                 subtitle: Text(document.uuid),
                 onTap: () {
                   //abrir detalhes
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => PedidoPage(pedido: document)));
                 },
                 onLongPress: () {
                   _showDialogDeletePedido(document);
