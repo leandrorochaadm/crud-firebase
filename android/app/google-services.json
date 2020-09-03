@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "512453889438",
+    "firebase_url": "https://motodelivery.firebaseio.com",
+    "project_id": "motodelivery",
+    "storage_bucket": "motodelivery.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512453889438:android:a85cefcd80c3b8351e1a8f",
+        "android_client_info": {
+          "package_name": "com.leandrorocha.motodelivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512453889438-gd8fkhnu5tnrcjpe0goqr4ejv3fd4dcl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.leandrorocha.motodelivery",
+            "certificate_hash": "e6a30a9e34698fb481cb16cdf5fe0509971f40e2"
+          }
+        },
+        {
+          "client_id": "512453889438-ktmes6idr1jcvjs51vdcc2qcdsgf205a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbz6DkuNYZcRig98Zddo9eqZW7pITPnPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512453889438-ktmes6idr1jcvjs51vdcc2qcdsgf205a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
