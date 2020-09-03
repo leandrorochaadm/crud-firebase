@@ -38,9 +38,10 @@ class _HomePageState extends State<HomePage> {
         },
         child: Icon(Icons.add),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: repository.pedidos.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      body: StreamBuilder<List<PedidoModel>>(
+        stream: repository.getPedidos(),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<PedidoModel>> snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text('Erro'));
           }
@@ -52,10 +53,11 @@ class _HomePageState extends State<HomePage> {
           }
 
           return ListView(
-            children: snapshot.data.docs.map((DocumentSnapshot document) {
+            //children: snapshot.data.map((e)) {
+            children: snapshot.data.map((PedidoModel document) {
               return ListTile(
-                title: Text(document.data()['endereco']),
-                subtitle: Text(document.data()['idEntregador']),
+                title: Text(document.endereco),
+                subtitle: Text(document.idEntregador),
                 onTap: () {
                   //abrir detalhes
                 },

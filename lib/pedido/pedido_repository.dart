@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:motodelivery/pedido/PedidoModel.dart';
 
 class PedidoRepository {
-  CollectionReference pedidos =
+  CollectionReference _pedidos =
       FirebaseFirestore.instance.collection('pedidos');
 
   Future<void> addPedido() {
     // Call the user's CollectionReference to add a new user
-    return pedidos
+    return _pedidos
         .add({
           'endereco': 'end 21',
           'formaPagamento': 'formaPagamento',
@@ -17,5 +18,10 @@ class PedidoRepository {
         })
         .then((value) => print("pedidos Added"))
         .catchError((error) => print("Failed to add pedido: $error"));
+  }
+
+  Stream<List<PedidoModel>> getPedidos() {
+    return _pedidos.snapshots().map(
+        (event) => event.docs.map((e) => PedidoModel.fromFirebase(e)).toList());
   }
 }
