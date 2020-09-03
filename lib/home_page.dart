@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:motodelivery/repository/pedido_repository.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -11,22 +12,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    CollectionReference pedidos =
-        FirebaseFirestore.instance.collection('pedidos');
+    PedidoRepository repository = PedidoRepository();
 
     Future<void> addPedido() {
       // Call the user's CollectionReference to add a new user
-      return pedidos
-          .add({
-            'endereco': 'end 21',
-            'formaPagamento': 'formaPagamento',
-            'idCliente': 'idCliente 21',
-            'idEntregador': 'idEntregador 21',
-            'status': 'status',
-            'troco': 50.0,
-          })
-          .then((value) => print("pedidos Added"))
-          .catchError((error) => print("Failed to add pedido: $error"));
+      return repository.addPedido();
     }
 
     return Scaffold(
@@ -37,7 +27,7 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: pedidos.snapshots(),
+        stream: repository.pedidos.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text('Erro'));
@@ -49,11 +39,11 @@ class _HomePageState extends State<HomePage> {
             );
           }
 
-          return new ListView(
+          return ListView(
             children: snapshot.data.docs.map((DocumentSnapshot document) {
-              return new ListTile(
-                title: new Text(document.data()['endereco']),
-                subtitle: new Text(document.data()['idEntregador']),
+              return ListTile(
+                title: Text(document.data()['endereco']),
+                subtitle: Text(document.data()['idEntregador']),
                 onTap: () {
                   //abrir detalhes
                 },
