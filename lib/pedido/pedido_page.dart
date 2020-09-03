@@ -144,6 +144,7 @@ class _PedidoPageState extends State<PedidoPage> {
                             ));*/
 
                             repository.enviarPedido(widget.pedido);
+                            Navigator.pop(context);
 
                             debugPrint("enviando Pedido");
                           },

@@ -8,6 +8,8 @@ class PedidoRepository {
   enviarPedido(PedidoModel p) {
     if (p.uuid == null) {
       addPedido(p);
+    } else {
+      updatePedido(p);
     }
   }
 
@@ -15,13 +17,13 @@ class PedidoRepository {
     return _pedidos
         .add(
           /*{
-          'endereco': 'end 21',
-          'formaPagamento': 'formaPagamento',
-          'idCliente': 'idCliente 21',
-          'idEntregador': 'idEntregador 21',
-          'status': 'status',
-          'troco': 50.0,          
-          }*/
+                'endereco': 'end 21',
+                'formaPagamento': 'formaPagamento',
+                'idCliente': 'idCliente 21',
+                'idEntregador': 'idEntregador 21',
+                'status': 'status',
+                'troco': 50.0,          
+                }*/
           p.toJson(),
         )
         .then((value) => print("pedidos Added"))
@@ -35,5 +37,9 @@ class PedidoRepository {
 
   Future<void> deletePedido(PedidoModel p) {
     return _pedidos.doc(p.uuid).delete();
+  }
+
+  Future<void> updatePedido(PedidoModel p) {
+    return _pedidos.doc(p.uuid).update(p.toJson());
   }
 }
