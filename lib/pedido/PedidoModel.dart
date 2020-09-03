@@ -12,6 +12,8 @@
 
  */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PedidoModel {
   String uuid;
   String idCliente;
@@ -40,6 +42,16 @@ class PedidoModel {
     status = json['status'];
   }
 
+  PedidoModel.fromFirebase(DocumentSnapshot json) {
+    uuid = json.reference.id;
+    idCliente = json.data()['idCliente'];
+    idEntregador = json.data()['idEntregador'];
+    endereco = json.data()['endereco'];
+    formaPagamento = json.data()['formaPagamento'];
+    troco = json.data()['troco'];
+    status = json.data()['status'];
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['uuid'] = this.uuid;
@@ -54,6 +66,6 @@ class PedidoModel {
 
   @override
   String toString() {
-    return "[cliente: $idCliente, entregador: $idEntregador, endereço: $endereco]";
+    return "[uuid: $uuid, cliente: $idCliente, entregador: $idEntregador, endereço: $endereco]";
   }
 }
