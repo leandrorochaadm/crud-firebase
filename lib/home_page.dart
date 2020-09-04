@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:motodelivery/dashboard/dashboard_page.dart';
 import 'package:motodelivery/pedido/PedidoModel.dart';
 import 'package:motodelivery/pedido/pedido_page.dart';
 import 'package:motodelivery/pedido/pedido_repository.dart';
@@ -12,12 +13,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int i = 1;
+  int _selectedIndex = 0;
   PedidoRepository repository = PedidoRepository();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+          onTap: _selecaoNavigatorBar,
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.list), label: "Lista"),
+            BottomNavigationBarItem(icon: Icon(Icons.money), label: "Gerenciar")
+          ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -85,5 +94,19 @@ class _HomePageState extends State<HomePage> {
             ],
           );
         });
+  }
+
+  void _selecaoNavigatorBar(int value) {
+    _selectedIndex = value;
+    switch (value) {
+      case 0:
+        Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+        break;
+      case 1:
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => DashboardPage()));
+        break;
+      default:
+    }
   }
 }
