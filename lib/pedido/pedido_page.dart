@@ -31,6 +31,23 @@ class _PedidoPageState extends State<PedidoPage> {
     _pedido = widget.pedido.valorPedido;
   }
 
+  _showDialogSemCategoria() {
+    return showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("Selecione uma\nforma de pagamento\nantes de salvar"),
+            actions: [
+              FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Ok"))
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,7 +188,7 @@ class _PedidoPageState extends State<PedidoPage> {
                           final form = _formKey.currentState;
                           if (widget.pedido.formaPagamento != 'Cartão' &&
                               widget.pedido.formaPagamento != 'Dinheiro')
-                            return;
+                            return _showDialogSemCategoria();
                           if (!form.validate()) return;
                           if (widget.pedido.formaPagamento == "Cartão") {
                             widget.pedido.valorDinheiro = 0.00;
