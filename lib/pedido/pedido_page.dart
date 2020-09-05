@@ -169,6 +169,9 @@ class _PedidoPageState extends State<PedidoPage> {
                         padding: EdgeInsets.all(8),
                         onPressed: () async {
                           final form = _formKey.currentState;
+                          if (widget.pedido.formaPagamento != 'Cartão' &&
+                              widget.pedido.formaPagamento != 'Dinheiro')
+                            return;
                           if (!form.validate()) return;
                           if (widget.pedido.formaPagamento == "Cartão") {
                             widget.pedido.valorDinheiro = 0.00;

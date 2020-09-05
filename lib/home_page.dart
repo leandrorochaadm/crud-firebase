@@ -56,7 +56,8 @@ class _HomePageState extends State<HomePage> {
                     totalDinheiro += document.valorDinheiro;
                     return ListTile(
                       title: Text(document.endereco),
-                      subtitle: Text(document.valorEntrega.toString()),
+                      subtitle: Text(
+                          "Entrega: ${document.valorEntrega}, Dinheiro ${document.valorDinheiro}"),
                       onTap: () {
                         //abrir detalhes
                         Navigator.push(
