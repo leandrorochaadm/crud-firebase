@@ -18,6 +18,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: TextTheme(
+          bodyText2: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          subtitle1: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
       ),
       home: HomePage(),
     );

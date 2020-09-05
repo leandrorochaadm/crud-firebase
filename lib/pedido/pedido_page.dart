@@ -111,7 +111,7 @@ class _PedidoPageState extends State<PedidoPage> {
                                 widget.pedido.valorDinheiro.toString() ??
                                     "0.00",
                             validator: (value) {
-                              if (double.tryParse(value) <
+                              if (double.parse(value) <
                                   widget.pedido.valorPedido.toDouble()) {
                                 return 'Valor não pode ser menor do que o pedido';
                               }

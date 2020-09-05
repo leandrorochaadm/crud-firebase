@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:motodelivery/dashboard/dashboard_page.dart';
 import 'package:motodelivery/pedido/PedidoModel.dart';
 import 'package:motodelivery/pedido/pedido_page.dart';
 import 'package:motodelivery/pedido/pedido_repository.dart';
@@ -15,18 +13,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   PedidoRepository repository = PedidoRepository();
+  double totalEntrega = 0;
+  double totalDinheiro = 0;
 
   @override
   Widget build(BuildContext context) {
+    double _heightScreen = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-          onTap: _selecaoNavigatorBar,
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.list), label: "Lista"),
-            BottomNavigationBarItem(icon: Icon(Icons.money), label: "Gerenciar")
-          ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -40,6 +34,8 @@ class _HomePageState extends State<HomePage> {
         stream: repository.getPedidos(),
         builder:
             (BuildContext context, AsyncSnapshot<List<PedidoModel>> snapshot) {
+          totalDinheiro = 0;
+          totalEntrega = 0;
           if (snapshot.hasError) {
             return Center(child: Text('Erro'));
           }
@@ -50,23 +46,48 @@ class _HomePageState extends State<HomePage> {
             );
           }
 
-          return ListView(
-            children: snapshot.data.map((PedidoModel document) {
-              return ListTile(
-                title: Text(document.endereco),
-                subtitle: Text(document.uuid),
-                onTap: () {
-                  //abrir detalhes
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => PedidoPage(pedido: document)));
-                },
-                onLongPress: () {
-                  _showDialogDeletePedido(document);
-                },
-              );
-            }).toList(),
+          return Column(
+            children: [
+              Container(
+                height: _heightScreen * .87,
+                child: ListView(
+                  children: snapshot.data.map((PedidoModel document) {
+                    totalEntrega += document.valorEntrega;
+                    totalDinheiro += document.valorDinheiro;
+                    return ListTile(
+                      title: Text(document.endereco),
+                      subtitle: Text(document.valorEntrega.toString()),
+                      onTap: () {
+                        //abrir detalhes
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => PedidoPage(pedido: document)));
+                      },
+                      onLongPress: () {
+                        _showDialogDeletePedido(document);
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
+              Container(
+                // alignment: Alignment.bottomLeft,
+                height: _heightScreen * .12,
+                // color: Colors.amberAccent,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("Total entregas: $totalEntrega",
+                        style: TextStyle(color: Colors.green)),
+                    Text("Total Dinheiro: $totalDinheiro",
+                        style: TextStyle(color: Colors.green)),
+                    Text("Acerto: ${totalEntrega - totalDinheiro}",
+                        style: TextStyle(color: Colors.blue)),
+                  ],
+                ),
+              )
+            ],
           );
         },
       ),
@@ -94,19 +115,5 @@ class _HomePageState extends State<HomePage> {
             ],
           );
         });
-  }
-
-  void _selecaoNavigatorBar(int value) {
-    _selectedIndex = value;
-    switch (value) {
-      case 0:
-        Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
-        break;
-      case 1:
-        Navigator.push(
-            context, MaterialPageRoute(builder: (_) => DashboardPage()));
-        break;
-      default:
-    }
   }
 }
