@@ -19,11 +19,17 @@ class _PedidoPageState extends State<PedidoPage> {
 
   PedidoRepository repository = PedidoRepository();
   CalculaEntrega _entrega = CalculaEntrega();
+  double _troco = 0;
+  double _dinheiro;
+  double _pedido;
 
   @override
   void initState() {
     super.initState();
     formaPagamentoDropDown = widget.pedido.formaPagamento ?? 'Selecione';
+    calcularTroco(
+        pedido: widget.pedido.valorPedido.toString(),
+        dinheiro: widget.pedido.valorDinheiro.toString());
   }
 
   @override
@@ -96,6 +102,11 @@ class _PedidoPageState extends State<PedidoPage> {
                             onSaved: (val) {
                               widget.pedido.valorPedido = double.tryParse(val);
                             },
+                            onChanged: (val) {
+                              setState(() {
+                                _pedido = double.parse(val);
+                              });
+                            },
                           ),
                         )
                       : Container(),
@@ -110,6 +121,11 @@ class _PedidoPageState extends State<PedidoPage> {
                             initialValue:
                                 widget.pedido.valorDinheiro.toString() ??
                                     "0.00",
+                            onChanged: (val) {
+                              setState(() {
+                                _dinheiro = double.parse(val);
+                              });
+                            },
                             validator: (value) {
                               if (double.parse(value) <
                                   widget.pedido.valorPedido.toDouble()) {
@@ -123,6 +139,14 @@ class _PedidoPageState extends State<PedidoPage> {
                             },
                           ),
                         )
+                      : Container(),
+                  (widget.pedido.formaPagamento == 'Dinheiro')
+                      ? Padding(
+                          padding: EdgeInsets.only(top: 8),
+                          child: Text(
+                            "Valor do troco: ${_dinheiro - _pedido}",
+                            style: TextStyle(color: Colors.red),
+                          ))
                       : Container(),
                   SizedBox(height: 40),
                   Row(
@@ -157,9 +181,9 @@ class _PedidoPageState extends State<PedidoPage> {
                           form.save();
 
                           /* Scaffold.of(context).showSnackBar(SnackBar(
-                                    content: Text('Enviando'),
-                                    duration: Duration(seconds: 2),
-                                  ));*/
+                                                                         content: Text('Enviando'),
+                                                                         duration: Duration(seconds: 2),
+                                                                       ));*/
 
                           repository.enviarPedido(widget.pedido);
                           Navigator.pop(context);
