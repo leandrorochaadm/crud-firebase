@@ -27,9 +27,8 @@ class _PedidoPageState extends State<PedidoPage> {
   void initState() {
     super.initState();
     formaPagamentoDropDown = widget.pedido.formaPagamento ?? 'Selecione';
-    calcularTroco(
-        pedido: widget.pedido.valorPedido.toString(),
-        dinheiro: widget.pedido.valorDinheiro.toString());
+    _dinheiro = widget.pedido.valorDinheiro;
+    _pedido = widget.pedido.valorPedido;
   }
 
   @override

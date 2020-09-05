@@ -15,7 +15,7 @@ class CalculaEntrega {
     Response response = await Dio().get(
         "https://maps.googleapis.com/maps/api/distancematrix/json" +
             "?units=metric" +
-            "&origins=-10.881672,-61.940875" +
+            "&origins=-10.886692, -61.950091" +
             "&destinations=${localEntrega.latitude},${localEntrega.longitude}" +
             "&key=AIzaSyC9SHrMSjri7WHEpG9wjw_bVTti0E6jm98");
 
