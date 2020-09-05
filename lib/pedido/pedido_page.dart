@@ -19,7 +19,6 @@ class _PedidoPageState extends State<PedidoPage> {
 
   PedidoRepository repository = PedidoRepository();
   CalculaEntrega _entrega = CalculaEntrega();
-  double _troco = 0;
   double _dinheiro;
   double _pedido;
 
@@ -194,15 +193,10 @@ class _PedidoPageState extends State<PedidoPage> {
                             widget.pedido.valorDinheiro = 0.00;
                             widget.pedido.valorPedido = 0.00;
                           }
+                          form.save();
                           widget.pedido.valorEntrega =
                               await _entrega.calcularValorEntregaPorEndereco(
                                   widget.pedido.endereco);
-                          form.save();
-
-                          /* Scaffold.of(context).showSnackBar(SnackBar(
-                                                                         content: Text('Enviando'),
-                                                                         duration: Duration(seconds: 2),
-                                                                       ));*/
 
                           repository.enviarPedido(widget.pedido);
                           Navigator.pop(context);

@@ -11,7 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
   PedidoRepository repository = PedidoRepository();
   double totalEntrega = 0;
   double totalDinheiro = 0;

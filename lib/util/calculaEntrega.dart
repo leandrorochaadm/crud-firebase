@@ -11,6 +11,9 @@ class CalculaEntrega {
     return LatLng(locations[0].latitude, locations[0].longitude);
   }
 
+/*
+https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=-10.8865882,-61.950475&destinations=-10.8853693,-61.9351293&key=AIzaSyC9SHrMSjri7WHEpG9wjw_bVTti0E6jm98
+*/
   Future<int> calculeteDistanceInMeters(LatLng localEntrega) async {
     Response response = await Dio().get(
         "https://maps.googleapis.com/maps/api/distancematrix/json" +
