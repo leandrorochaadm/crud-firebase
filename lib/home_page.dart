@@ -12,8 +12,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PedidoRepository repository = PedidoRepository();
-  double totalEntrega = 0;
-  double totalDinheiro = 0;
+  double totalEntrega;
+  double totalDinheiro;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                     return ListTile(
                       title: Text(document.endereco),
                       subtitle: Text(
-                          "Entrega: ${document.valorEntrega}, Dinheiro ${document.valorDinheiro}"),
+                          "Entrega: ${document.valorEntrega}, ${document.valorDinheiro == 0 ? 'Cartão' : 'Dinheiro: + document.valorDinheiro '}"),
                       onTap: () {
                         //abrir detalhes
                         Navigator.push(

@@ -26,8 +26,8 @@ class _PedidoPageState extends State<PedidoPage> {
   void initState() {
     super.initState();
     formaPagamentoDropDown = widget.pedido.formaPagamento ?? 'Selecione';
-    _dinheiro = widget.pedido.valorDinheiro;
-    _pedido = widget.pedido.valorPedido;
+    _dinheiro = widget.pedido.valorDinheiro ?? 0;
+    _pedido = widget.pedido.valorPedido ?? 0;
   }
 
   _showDialogSemCategoria() {
@@ -45,6 +45,12 @@ class _PedidoPageState extends State<PedidoPage> {
             ],
           );
         });
+  }
+
+  double _troco() {
+    print("Di: $_dinheiro");
+    print("Pe: $_pedido");
+    return (_dinheiro != null && _pedido != null) ? _dinheiro - _pedido : 0;
   }
 
   @override
@@ -106,8 +112,7 @@ class _PedidoPageState extends State<PedidoPage> {
                             decoration:
                                 InputDecoration(labelText: "Valor do pedido"),
                             autocorrect: false,
-                            initialValue:
-                                widget.pedido.valorPedido.toString() ?? "0.00",
+                            initialValue: widget.pedido.valorPedido ?? "",
                             validator: (value) {
                               if (double.tryParse(value) < 0) {
                                 return 'Valor inválido';
@@ -133,9 +138,7 @@ class _PedidoPageState extends State<PedidoPage> {
                             decoration:
                                 InputDecoration(labelText: "Troco para?"),
                             autocorrect: false,
-                            initialValue:
-                                widget.pedido.valorDinheiro.toString() ??
-                                    "0.00",
+                            initialValue: widget.pedido.valorDinheiro ?? "",
                             onChanged: (val) {
                               setState(() {
                                 _dinheiro = double.parse(val);
@@ -159,7 +162,7 @@ class _PedidoPageState extends State<PedidoPage> {
                       ? Padding(
                           padding: EdgeInsets.only(top: 8),
                           child: Text(
-                            "Valor do troco: ${_dinheiro - _pedido}",
+                            "Valor do troco: ${_troco()}",
                             style: TextStyle(color: Colors.red),
                           ))
                       : Container(),
@@ -176,10 +179,7 @@ class _PedidoPageState extends State<PedidoPage> {
 
                           debugPrint("Cancelado Pedido");
                         },
-                        child: Text(
-                          "Voltar",
-                          style: TextStyle(fontSize: 16),
-                        ),
+                        child: Text("Voltar", style: TextStyle(fontSize: 16)),
                       ),
                       RaisedButton(
                         padding: EdgeInsets.all(8),
@@ -203,10 +203,7 @@ class _PedidoPageState extends State<PedidoPage> {
 
                           debugPrint("enviando Pedido");
                         },
-                        child: Text(
-                          "Salvar",
-                          style: TextStyle(fontSize: 20),
-                        ),
+                        child: Text("Salvar", style: TextStyle(fontSize: 20)),
                       ),
                     ],
                   )

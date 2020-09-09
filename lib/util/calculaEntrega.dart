@@ -29,21 +29,21 @@ https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=-1
   }
 
   double calcularValorEntrega(int distanciaMetros) {
-    if (distanciaMetros < 3500) {
+    if (distanciaMetros <= 2333) {
       return 3.50;
-    }
-    if (distanciaMetros < 5000) {
-      return 5.00;
-    }
-    if (distanciaMetros < 7000) {
-      return 7.00;
+    } else if (distanciaMetros <= 4666) {
+      return (distanciaMetros * 1.5) / 1000;
     } else {
-      return (distanciaMetros / 1000).ceilToDouble();
+      return ((distanciaMetros - 4666) / 1000) + 7;
     }
   }
 
+  double arrendondar25centavos(double val) {
+    return ((val / 0.25).ceil()) * .25;
+  }
+
   Future<double> calcularValorEntregaPorEndereco(String endereco) async {
-    return calcularValorEntrega(
-        await calculeteDistanceInMeters(await searchandNavigate(endereco)));
+    return arrendondar25centavos(calcularValorEntrega(
+        await calculeteDistanceInMeters(await searchandNavigate(endereco))));
   }
 }
