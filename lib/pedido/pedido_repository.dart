@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:motodelivery/pedido/PedidoModel.dart';
+import 'package:motodelivery/pedido/pedido_model.dart';
 
 class PedidoRepository {
   CollectionReference _pedidos =

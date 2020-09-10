@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:motodelivery/pedido/PedidoModel.dart';
+import 'package:motodelivery/pedido/pedido_model.dart';
 import 'package:motodelivery/pedido/pedido_page.dart';
 import 'package:motodelivery/pedido/pedido_repository.dart';
 
@@ -45,18 +45,19 @@ class _HomePageState extends State<HomePage> {
             );
           }
 
-          return Column(
+          return ListView(
             children: [
               Container(
-                height: _heightScreen * .87,
+                height: _heightScreen * .85,
                 child: ListView(
                   children: snapshot.data.map((PedidoModel document) {
                     totalEntrega += document.valorEntrega;
                     totalDinheiro += document.valorDinheiro;
                     return ListTile(
-                      title: Text(document.endereco),
-                      subtitle: Text(
-                          "Entrega: ${document.valorEntrega}, ${document.valorDinheiro == 0 ? 'Cartão' : 'Dinheiro: + document.valorDinheiro '}"),
+                      title: Text("${document.endereco}, ${document.numero}"),
+                      subtitle: Text(document.uuid),
+                      // subtitle: Text(
+                      // "Entrega: ${document.valorEntrega}, ${document.valorDinheiro == 0 ? 'Cartão' : 'Dinheiro: + document.valorDinheiro '}"),
                       onTap: () {
                         //abrir detalhes
                         Navigator.push(
