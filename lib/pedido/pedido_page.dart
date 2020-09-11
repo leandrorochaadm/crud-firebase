@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:motodelivery/pedido/pedido_model.dart';
-import 'package:motodelivery/pedido/pedido_repository.dart';
 import 'package:motodelivery/pedido/pedido_service.dart';
 import 'package:motodelivery/util/calculaEntrega.dart';
+import 'package:motodelivery/util/mapa_page.dart';
 
 class PedidoPage extends StatefulWidget {
   final PedidoModel pedido;
@@ -59,6 +59,13 @@ class _PedidoPageState extends State<PedidoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => MapaPage()));
+        },
+        child: Icon(Icons.map),
+      ),
       body: SafeArea(
           child: Form(
               key: _formKey,

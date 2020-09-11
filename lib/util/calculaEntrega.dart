@@ -4,8 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CalculaEntrega {
   Future<LatLng> searchandNavigate(String endereco) async {
-    final List<Location> locations =
-        await locationFromAddress("$endereco Ji-paraná Rondônia");
+    final List<Location> locations = await locationFromAddress(endereco);
 
     return LatLng(locations[0].latitude, locations[0].longitude);
   }

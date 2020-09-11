@@ -13,7 +13,7 @@ abstract class _PedidoServiceBase with Store {
   final PedidoModel pedido;
   _PedidoServiceBase({this.pedido}) {
     endereco = pedido.endereco;
-    numero = pedido.numero ?? "";
+    numero = pedido.numero;
     bairro = pedido.bairro;
     complemento = pedido.complemento;
     formaPagamento = pedido.formaPagamento;
@@ -77,7 +77,7 @@ abstract class _PedidoServiceBase with Store {
 
   @computed
   String get enderecoCompleto {
-    return "$endereco, $numero - $bairro";
+    return "$endereco, $numero - $bairro, Ji-Paraná - RO";
   }
 
   @observable
