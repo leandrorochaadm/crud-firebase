@@ -51,26 +51,12 @@ mixin _$PedidoService on _PedidoServiceBase, Store {
       (_$isDinheiroComputed ??= Computed<bool>(() => super.isDinheiro,
               name: '_PedidoServiceBase.isDinheiro'))
           .value;
-  Computed<String> _$valorEntregaErrorComputed;
-
-  @override
-  String get valorEntregaError => (_$valorEntregaErrorComputed ??=
-          Computed<String>(() => super.valorEntregaError,
-              name: '_PedidoServiceBase.valorEntregaError'))
-      .value;
   Computed<double> _$valorTrocoComputed;
 
   @override
   double get valorTroco =>
       (_$valorTrocoComputed ??= Computed<double>(() => super.valorTroco,
               name: '_PedidoServiceBase.valorTroco'))
-          .value;
-  Computed<PedidoModel> _$pedidoComputed;
-
-  @override
-  PedidoModel get pedido =>
-      (_$pedidoComputed ??= Computed<PedidoModel>(() => super.pedido,
-              name: '_PedidoServiceBase.pedido'))
           .value;
 
   final _$enderecoAtom = Atom(name: '_PedidoServiceBase.endereco');
@@ -91,13 +77,13 @@ mixin _$PedidoService on _PedidoServiceBase, Store {
   final _$numeroAtom = Atom(name: '_PedidoServiceBase.numero');
 
   @override
-  String get numero {
+  int get numero {
     _$numeroAtom.reportRead();
     return super.numero;
   }
 
   @override
-  set numero(String value) {
+  set numero(int value) {
     _$numeroAtom.reportWrite(value, super.numero, () {
       super.numero = value;
     });
@@ -222,17 +208,6 @@ mixin _$PedidoService on _PedidoServiceBase, Store {
   }
 
   @override
-  void setValorEntrega(double val) {
-    final _$actionInfo = _$_PedidoServiceBaseActionController.startAction(
-        name: '_PedidoServiceBase.setValorEntrega');
-    try {
-      return super.setValorEntrega(val);
-    } finally {
-      _$_PedidoServiceBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 endereco: ${endereco},
@@ -247,9 +222,7 @@ enderecoCompleto: ${enderecoCompleto},
 valorPedidoError: ${valorPedidoError},
 valorDinheiroError: ${valorDinheiroError},
 isDinheiro: ${isDinheiro},
-valorEntregaError: ${valorEntregaError},
-valorTroco: ${valorTroco},
-pedido: ${pedido}
+valorTroco: ${valorTroco}
     ''';
   }
 }

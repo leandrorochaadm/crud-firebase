@@ -33,8 +33,9 @@ class _HomePageState extends State<HomePage> {
         stream: repository.getPedidos(),
         builder:
             (BuildContext context, AsyncSnapshot<List<PedidoModel>> snapshot) {
-          totalDinheiro = 0;
-          totalEntrega = 0;
+          totalDinheiro = 0.0;
+          totalEntrega = 0.0;
+
           if (snapshot.hasError) {
             return Center(child: Text('Erro'));
           }
@@ -46,18 +47,26 @@ class _HomePageState extends State<HomePage> {
           }
 
           return ListView(
+            // padding: EdgeInsets.zero,
             children: [
               Container(
                 height: _heightScreen * .85,
                 child: ListView(
+                  padding: EdgeInsets.zero,
                   children: snapshot.data.map((PedidoModel document) {
-                    totalEntrega += document.valorEntrega;
-                    totalDinheiro += document.valorDinheiro;
+                    totalEntrega += document.valorEntrega ?? 0;
+                    totalDinheiro += document.valorDinheiro ?? 0;
                     return ListTile(
                       title: Text("${document.endereco}, ${document.numero}"),
-                      subtitle: Text(document.uuid),
-                      // subtitle: Text(
-                      // "Entrega: ${document.valorEntrega}, ${document.valorDinheiro == 0 ? 'Cartão' : 'Dinheiro: + document.valorDinheiro '}"),
+                      // subtitle: Text(document.uuid),
+                      subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Entrega: ${document.valorEntrega}"),
+                          Text(
+                              "${document.valorDinheiro == 0 ? 'Cartão' : document.valorDinheiro}")
+                        ],
+                      ),
                       onTap: () {
                         //abrir detalhes
                         Navigator.push(

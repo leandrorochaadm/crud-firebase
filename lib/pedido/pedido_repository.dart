@@ -5,10 +5,13 @@ class PedidoRepository {
   CollectionReference _pedidos =
       FirebaseFirestore.instance.collection('pedidos');
 
-  enviarPedido(PedidoModel p) {
+  void enviarPedido(PedidoModel p) {
+    print("rep: $p");
     if (p.uuid == null) {
+      print("rep: add");
       addPedido(p);
     } else {
+      print("rep: up");
       updatePedido(p);
     }
   }
@@ -17,13 +20,13 @@ class PedidoRepository {
     return _pedidos
         .add(
           /*{
-                'endereco': 'end 21',
-                'formaPagamento': 'formaPagamento',
-                'idCliente': 'idCliente 21',
-                'idEntregador': 'idEntregador 21',
-                'status': 'status',
-                'troco': 50.0,          
-                }*/
+          'endereco': 'end 21',
+          'formaPagamento': 'formaPagamento',
+          'idCliente': 'idCliente 21',
+          'idEntregador': 'idEntregador 21',
+          'status': 'status',
+          'troco': 50.0,
+        }*/
           p.toJson(),
         )
         .then((value) => print("pedidos Added"))

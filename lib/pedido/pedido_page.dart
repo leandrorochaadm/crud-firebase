@@ -19,7 +19,6 @@ class _PedidoPageState extends State<PedidoPage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  PedidoRepository repository = PedidoRepository();
   CalculaEntrega _entrega = CalculaEntrega();
   double _dinheiro;
   double _pedido;
@@ -28,7 +27,7 @@ class _PedidoPageState extends State<PedidoPage> {
   @override
   void initState() {
     super.initState();
-    service = PedidoService(widget.pedido);
+    service = PedidoService(pedido: widget.pedido);
     formaPagamentoDropDown = service.formaPagamento ?? 'Selecione';
     _dinheiro = service.valorDinheiro ?? 0;
     _pedido = service.valorPedido ?? 0;
@@ -87,7 +86,8 @@ class _PedidoPageState extends State<PedidoPage> {
                           decoration:
                               InputDecoration(labelText: "Número da casa"),
                           autocorrect: false,
-                          initialValue: service.numero ?? "",
+                          keyboardType: TextInputType.number,
+                          initialValue: service.numero.toString() ?? "",
                           validator: (_) {
                             return service.numeroError;
                           },
@@ -112,13 +112,13 @@ class _PedidoPageState extends State<PedidoPage> {
                         icon: Icon(Icons.arrow_downward),
                         iconSize: 24,
                         elevation: 16,
-                        style: TextStyle(color: Colors.deepPurple),
+                        // style: TextStyle(color: Colors.b),
                         underline: Container(
                           height: 2,
                           color: Colors.deepPurpleAccent,
                         ),
                         onChanged: service.setFormaPagamento,
-                        items: <String>['Selecione', 'Cartão', 'Dinheiro']
+                        items: <String>['Cartão', 'Dinheiro']
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -134,7 +134,8 @@ class _PedidoPageState extends State<PedidoPage> {
                                 decoration: InputDecoration(
                                     labelText: "Valor do pedido"),
                                 autocorrect: false,
-                                initialValue: service.valorPedido ?? "",
+                                initialValue:
+                                    service.valorPedido.toString() ?? "",
                                 validator: (_) {
                                   return service.valorPedidoError;
                                 },
@@ -150,7 +151,8 @@ class _PedidoPageState extends State<PedidoPage> {
                                 decoration:
                                     InputDecoration(labelText: "Troco para?"),
                                 autocorrect: false,
-                                initialValue: service.valorDinheiro ?? "",
+                                initialValue:
+                                    service.valorDinheiro.toString() ?? "",
                                 onChanged: service.setValorDinheiro,
                                 validator: (value) {
                                   return service.valorDinheiroError;
@@ -161,10 +163,19 @@ class _PedidoPageState extends State<PedidoPage> {
                       service.isDinheiro
                           ? Padding(
                               padding: EdgeInsets.only(top: 8),
-                              child: Text(
-                                "Valor do troco: ${service.valorTroco}",
-                                style: TextStyle(color: Colors.red),
-                              ))
+                              child: service.valorTrocoValido
+                                  ? Text(
+                                      "Valor do troco: ${service.valorTroco ?? ""}",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.red),
+                                    )
+                                  : Text(
+                                      "Valor do dinheiro deve ser maior ou igual valor do pedido",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          backgroundColor: Colors.yellow),
+                                    ))
                           : Container(),
                       SizedBox(height: 40),
                       Row(
@@ -176,8 +187,6 @@ class _PedidoPageState extends State<PedidoPage> {
                               //TODO: validar se deseja sair sem salvar
                               //TODO: validar forma pagamento selecionada
                               Navigator.pop(context);
-
-                              debugPrint("Cancelado Pedido");
                             },
                             child:
                                 Text("Voltar", style: TextStyle(fontSize: 16)),
@@ -194,12 +203,11 @@ class _PedidoPageState extends State<PedidoPage> {
                                 service.setValorDinheiro("0.00");
                                 service.setValorPedido("0.00");
                               }
-                              form.save();
-                              service.setValorEntrega(await _entrega
-                                  .calcularValorEntregaPorEndereco(
-                                      service.enderecoCompleto));
 
-                              repository.enviarPedido(service.pedido);
+                              if (!service.valorTrocoValido) return;
+
+                              await service.salvePedido();
+
                               Navigator.pop(context);
 
                               debugPrint("enviando Pedido");
