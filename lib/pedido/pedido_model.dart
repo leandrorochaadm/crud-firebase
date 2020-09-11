@@ -41,6 +41,8 @@ class PedidoModel {
   String idEntregador;
   String endereco;
   int numero;
+  String bairro;
+  String complemento;
   String formaPagamento;
   double valorPedido;
   double valorDinheiro;
@@ -53,6 +55,8 @@ class PedidoModel {
       this.idEntregador,
       this.endereco,
       this.numero,
+      this.bairro,
+      this.complemento,
       this.formaPagamento,
       this.valorPedido,
       this.valorDinheiro,
@@ -65,6 +69,8 @@ class PedidoModel {
     idEntregador = json['idEntregador'];
     endereco = json['endereco'];
     numero = json['numero'];
+    bairro = json['bairro'];
+    complemento = json['complemento'];
     formaPagamento = json['formaPagamento'];
     valorPedido = json['valorPedido'];
     valorDinheiro = json['valorDinheiro'];
@@ -79,6 +85,8 @@ class PedidoModel {
     data['idEntregador'] = this.idEntregador;
     data['endereco'] = this.endereco;
     data['numero'] = this.numero;
+    data['bairro'] = this.bairro;
+    data['complemento'] = this.complemento;
     data['formaPagamento'] = this.formaPagamento;
     data['valorPedido'] = this.valorPedido;
     data['valorDinheiro'] = this.valorDinheiro;
@@ -93,6 +101,8 @@ class PedidoModel {
     idEntregador = json.data()['idEntregador'];
     endereco = json.data()['endereco'];
     numero = json.data()['numero'];
+    bairro = json.data()['bairro'];
+    complemento = json.data()['complemento'];
     formaPagamento = json.data()['formaPagamento'];
     valorPedido = json.data()['valorPedido'];
     valorDinheiro = json.data()['valorDinheiro'];
@@ -102,6 +112,6 @@ class PedidoModel {
 
   @override
   String toString() {
-    return "[uuid: $uuid, cliente: $idCliente, entregador: $idEntregador, endereço: $endereco, $numero]";
+    return "[uuid: $uuid, cliente: $idCliente, entregador: $idEntregador, endereço: $endereco, $numero - $bairro]";
   }
 }

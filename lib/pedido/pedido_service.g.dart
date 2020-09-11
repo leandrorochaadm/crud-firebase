@@ -23,6 +23,13 @@ mixin _$PedidoService on _PedidoServiceBase, Store {
       (_$numeroErrorComputed ??= Computed<String>(() => super.numeroError,
               name: '_PedidoServiceBase.numeroError'))
           .value;
+  Computed<String> _$bairroErrorComputed;
+
+  @override
+  String get bairroError =>
+      (_$bairroErrorComputed ??= Computed<String>(() => super.bairroError,
+              name: '_PedidoServiceBase.bairroError'))
+          .value;
   Computed<String> _$enderecoCompletoComputed;
 
   @override
@@ -86,6 +93,36 @@ mixin _$PedidoService on _PedidoServiceBase, Store {
   set numero(int value) {
     _$numeroAtom.reportWrite(value, super.numero, () {
       super.numero = value;
+    });
+  }
+
+  final _$bairroAtom = Atom(name: '_PedidoServiceBase.bairro');
+
+  @override
+  String get bairro {
+    _$bairroAtom.reportRead();
+    return super.bairro;
+  }
+
+  @override
+  set bairro(String value) {
+    _$bairroAtom.reportWrite(value, super.bairro, () {
+      super.bairro = value;
+    });
+  }
+
+  final _$complementoAtom = Atom(name: '_PedidoServiceBase.complemento');
+
+  @override
+  String get complemento {
+    _$complementoAtom.reportRead();
+    return super.complemento;
+  }
+
+  @override
+  set complemento(String value) {
+    _$complementoAtom.reportWrite(value, super.complemento, () {
+      super.complemento = value;
     });
   }
 
@@ -175,6 +212,28 @@ mixin _$PedidoService on _PedidoServiceBase, Store {
   }
 
   @override
+  void setBairro(String val) {
+    final _$actionInfo = _$_PedidoServiceBaseActionController.startAction(
+        name: '_PedidoServiceBase.setBairro');
+    try {
+      return super.setBairro(val);
+    } finally {
+      _$_PedidoServiceBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setComplemento(String val) {
+    final _$actionInfo = _$_PedidoServiceBaseActionController.startAction(
+        name: '_PedidoServiceBase.setComplemento');
+    try {
+      return super.setComplemento(val);
+    } finally {
+      _$_PedidoServiceBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setFormaPagamento(String val) {
     final _$actionInfo = _$_PedidoServiceBaseActionController.startAction(
         name: '_PedidoServiceBase.setFormaPagamento');
@@ -212,12 +271,15 @@ mixin _$PedidoService on _PedidoServiceBase, Store {
     return '''
 endereco: ${endereco},
 numero: ${numero},
+bairro: ${bairro},
+complemento: ${complemento},
 formaPagamento: ${formaPagamento},
 valorPedido: ${valorPedido},
 valorDinheiro: ${valorDinheiro},
 valorEntrega: ${valorEntrega},
 enderecoError: ${enderecoError},
 numeroError: ${numeroError},
+bairroError: ${bairroError},
 enderecoCompleto: ${enderecoCompleto},
 valorPedidoError: ${valorPedidoError},
 valorDinheiroError: ${valorDinheiroError},

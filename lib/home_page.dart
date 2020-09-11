@@ -57,7 +57,10 @@ class _HomePageState extends State<HomePage> {
                     totalEntrega += document.valorEntrega ?? 0;
                     totalDinheiro += document.valorDinheiro ?? 0;
                     return ListTile(
-                      title: Text("${document.endereco}, ${document.numero}"),
+                      title: Flexible(
+                        child: Text(
+                            "${document.endereco}, ${document.numero} - ${document.bairro} - ${document.complemento ?? ""}"),
+                      ),
                       // subtitle: Text(document.uuid),
                       subtitle: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

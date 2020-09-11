@@ -13,7 +13,9 @@ abstract class _PedidoServiceBase with Store {
   final PedidoModel pedido;
   _PedidoServiceBase({this.pedido}) {
     endereco = pedido.endereco;
-    numero = pedido.numero;
+    numero = pedido.numero ?? "";
+    bairro = pedido.bairro;
+    complemento = pedido.complemento;
     formaPagamento = pedido.formaPagamento;
     /*endereco = "Rua dom augusto";
     numero = 123;
@@ -51,9 +53,31 @@ abstract class _PedidoServiceBase with Store {
     else if (endereco.isEmpty || endereco == null) return "Campo obrigatório";
   }
 
+  @observable
+  String bairro;
+
+  @action
+  void setBairro(String val) => bairro = val;
+
+  @computed
+  String get bairroError {
+    if (bairro != null && bairro.trim().length > 4)
+      return null;
+    else if (bairro.isEmpty || bairro == null)
+      return "Campo obrigatório";
+    else
+      return "Bairro muito curto";
+  }
+
+  @observable
+  String complemento;
+
+  @action
+  void setComplemento(String val) => complemento = val;
+
   @computed
   String get enderecoCompleto {
-    return "$endereco, $numero";
+    return "$endereco, $numero - $bairro";
   }
 
   @observable
@@ -112,6 +136,8 @@ abstract class _PedidoServiceBase with Store {
       uuid: pedido.uuid,
       endereco: endereco,
       numero: numero,
+      bairro: bairro,
+      complemento: complemento,
       formaPagamento: formaPagamento,
       valorDinheiro: valorDinheiro,
       valorEntrega: valorEntrega,
@@ -126,8 +152,6 @@ abstract class _PedidoServiceBase with Store {
       formaPagamento: "Cartão",
       numero: 453,
     );*/
-
-    print("service: $cad");
 
     await repository.enviarPedido(cad);
   }

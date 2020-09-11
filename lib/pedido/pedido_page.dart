@@ -94,6 +94,28 @@ class _PedidoPageState extends State<PedidoPage> {
                           onChanged: service.setNumero,
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: TextFormField(
+                          decoration: InputDecoration(labelText: "Bairro"),
+                          autocorrect: false,
+                          initialValue: service.bairro ?? "",
+                          validator: (_) {
+                            return service.bairroError;
+                          },
+                          onChanged: service.setBairro,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                              labelText: "Complemento/Ponto de referência"),
+                          autocorrect: false,
+                          initialValue: service.complemento ?? "",
+                          onChanged: service.setComplemento,
+                        ),
+                      ),
                       /* Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: TextFormField(
@@ -107,6 +129,7 @@ class _PedidoPageState extends State<PedidoPage> {
                           onChanged: service.setEndereco,
                         ),
                       ),*/
+
                       DropdownButton<String>(
                         value: service.formaPagamento,
                         icon: Icon(Icons.arrow_downward),
