@@ -34,9 +34,7 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           service.novoForm();
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) => PedidoPage(pedido: PedidoModel())));
+              context, MaterialPageRoute(builder: (_) => PedidoPage()));
         },
         child: Icon(Icons.add),
       ),
@@ -69,7 +67,8 @@ class _HomePageState extends State<HomePage> {
                     totalDinheiro += document.valorDinheiro ?? 0;
                     return ListTile(
                       title: Text(
-                          "${document.endereco}, ${document.numero} - ${document.bairro} - ${document.complemento ?? ""}"),
+                          "${document.endereco}, ${document.numero}' - ${document.bairro}, ${document.complemento ?? ""}"),
+                      // title: Text(document.coodernadas.toString()),
                       // subtitle: Text(document.uuid),
                       subtitle: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

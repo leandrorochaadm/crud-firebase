@@ -8,8 +8,7 @@ import 'package:motodelivery/util/calculaEntrega.dart';
 import 'package:motodelivery/util/mapa_page.dart';
 
 class PedidoPage extends StatefulWidget {
-  final PedidoModel pedido;
-  PedidoPage({Key key, @required this.pedido}) : super(key: key);
+  PedidoPage({Key key}) : super(key: key);
 
   @override
   _PedidoPageState createState() => _PedidoPageState();
@@ -70,6 +69,7 @@ class _PedidoPageState extends State<PedidoPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          service.calculaValorEntrega();
           Navigator.push(
               context, MaterialPageRoute(builder: (_) => MapaPage()));
         },

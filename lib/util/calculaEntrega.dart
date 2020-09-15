@@ -3,10 +3,13 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CalculaEntrega {
-  Future<LatLng> searchandNavigate(String endereco) async {
-    final List<Location> locations = await locationFromAddress(endereco);
+  LatLng coodernadadas;
 
-    return LatLng(locations[0].latitude, locations[0].longitude);
+  Future<LatLng> searchandNavigate(String endereco) async {
+    coodernadadas = null;
+    final List<Location> locations = await locationFromAddress(endereco);
+    coodernadadas = LatLng(locations[0].latitude, locations[0].longitude);
+    return coodernadadas;
   }
 
 /*
@@ -43,5 +46,10 @@ https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=-1
   Future<double> calcularValorEntregaPorEndereco(String endereco) async {
     return arrendondar25centavos(calcularValorEntrega(
         await calculeteDistanceInMeters(await searchandNavigate(endereco))));
+  }
+
+  Future<double> calcularValorEntregaPorCoodernadas(LatLng coodernadas) async {
+    return arrendondar25centavos(
+        calcularValorEntrega(await calculeteDistanceInMeters(coodernadas)));
   }
 }

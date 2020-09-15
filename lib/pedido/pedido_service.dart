@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mobx/mobx.dart';
 import 'package:motodelivery/pedido/pedido_model.dart';
@@ -141,6 +142,8 @@ abstract class _PedidoServiceBase with Store {
   Future<void> calculaValorEntrega() async {
     final calc = CalculaEntrega();
     valorEntrega = await calc.calcularValorEntregaPorEndereco(enderecoCompleto);
+    _pedido.coodernadas =
+        GeoPoint(calc.coodernadadas.latitude, calc.coodernadadas.longitude);
   }
 
   @computed
@@ -163,6 +166,7 @@ abstract class _PedidoServiceBase with Store {
       idCliente: "",
       idEntregador: "",
       status: "",
+      coodernadas: _pedido.coodernadas,
     );
 
     /*final cad = await PedidoModel(

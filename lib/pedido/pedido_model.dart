@@ -48,20 +48,23 @@ class PedidoModel {
   double valorDinheiro;
   double valorEntrega;
   String status;
+  GeoPoint coodernadas;
 
-  PedidoModel(
-      {this.uuid,
-      this.idCliente,
-      this.idEntregador,
-      this.endereco,
-      this.numero,
-      this.bairro,
-      this.complemento,
-      this.formaPagamento,
-      this.valorPedido,
-      this.valorDinheiro,
-      this.valorEntrega,
-      this.status});
+  PedidoModel({
+    this.uuid,
+    this.idCliente,
+    this.idEntregador,
+    this.endereco,
+    this.numero,
+    this.bairro,
+    this.complemento,
+    this.formaPagamento,
+    this.valorPedido,
+    this.valorDinheiro,
+    this.valorEntrega,
+    this.status,
+    this.coodernadas,
+  });
 
   PedidoModel.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];
@@ -76,6 +79,8 @@ class PedidoModel {
     valorDinheiro = json['valorDinheiro'];
     valorEntrega = json['valorEntrega'];
     status = json['status'];
+    coodernadas = json['coodernadas'];
+    print(json['coodernadas']);
   }
 
   Map<String, dynamic> toJson() {
@@ -92,6 +97,7 @@ class PedidoModel {
     data['valorDinheiro'] = this.valorDinheiro;
     data['valorEntrega'] = this.valorEntrega;
     data['status'] = this.status;
+    data['coodernadas'] = this.coodernadas;
     return data;
   }
 
@@ -108,6 +114,7 @@ class PedidoModel {
     valorDinheiro = json.data()['valorDinheiro'];
     valorEntrega = json.data()['valorEntrega'];
     status = json.data()['status'];
+    coodernadas = json.data()['coodernadas'];
   }
 
   @override
