@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:motodelivery/pedido/pedido_model.dart';
 import 'package:motodelivery/pedido/pedido_page.dart';
 import 'package:motodelivery/pedido/pedido_repository.dart';
+import 'package:motodelivery/pedido/pedido_service.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -12,8 +14,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PedidoRepository repository = PedidoRepository();
+  PedidoService service;
   double totalEntrega;
   double totalDinheiro;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    service = GetIt.I<PedidoService>();
+    // service.setPedido(widget.pedido);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +32,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          service.novoForm();
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -57,10 +68,8 @@ class _HomePageState extends State<HomePage> {
                     totalEntrega += document.valorEntrega ?? 0;
                     totalDinheiro += document.valorDinheiro ?? 0;
                     return ListTile(
-                      title: Flexible(
-                        child: Text(
-                            "${document.endereco}, ${document.numero} - ${document.bairro} - ${document.complemento ?? ""}"),
-                      ),
+                      title: Text(
+                          "${document.endereco}, ${document.numero} - ${document.bairro} - ${document.complemento ?? ""}"),
                       // subtitle: Text(document.uuid),
                       subtitle: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,11 +80,10 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                       onTap: () {
+                        service.setPedido(document);
                         //abrir detalhes
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => PedidoPage(pedido: document)));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => PedidoPage()));
                       },
                       onLongPress: () {
                         _showDialogDeletePedido(document);

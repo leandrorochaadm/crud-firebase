@@ -1,10 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:motodelivery/home_page.dart';
+import 'package:motodelivery/pedido/pedido_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await setupLocators();
   runApp(MyApp());
 }
 
@@ -26,4 +29,8 @@ class MyApp extends StatelessWidget {
       home: HomePage(),
     );
   }
+}
+
+Future<void> setupLocators() async {
+  await GetIt.I.registerSingleton(PedidoService());
 }

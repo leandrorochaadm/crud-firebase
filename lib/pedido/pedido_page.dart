@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:motodelivery/pedido/pedido_model.dart';
 import 'package:motodelivery/pedido/pedido_service.dart';
 import 'package:motodelivery/util/calculaEntrega.dart';
@@ -27,10 +28,18 @@ class _PedidoPageState extends State<PedidoPage> {
   @override
   void initState() {
     super.initState();
-    service = PedidoService(pedido: widget.pedido);
+    service = GetIt.I<PedidoService>();
+    // service = PedidoService(pedido: widget.pedido);
     formaPagamentoDropDown = service.formaPagamento ?? 'Selecione';
     _dinheiro = service.valorDinheiro ?? 0;
     _pedido = service.valorPedido ?? 0;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // service = GetIt.I<PedidoService>();
+    // service.setPedido(widget.pedido);
   }
 
   _showDialogSemCategoria() {
@@ -148,7 +157,7 @@ class _PedidoPageState extends State<PedidoPage> {
                           color: Colors.deepPurpleAccent,
                         ),
                         onChanged: service.setFormaPagamento,
-                        items: <String>['Cartão', 'Dinheiro']
+                        items: <String>['Selecione', 'Cartão', 'Dinheiro']
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,

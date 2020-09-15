@@ -10,18 +10,36 @@ class PedidoService = _PedidoServiceBase with _$PedidoService;
 
 abstract class _PedidoServiceBase with Store {
   PedidoRepository repository = PedidoRepository();
-  final PedidoModel pedido;
-  _PedidoServiceBase({this.pedido}) {
-    endereco = pedido.endereco;
-    numero = pedido.numero;
-    bairro = pedido.bairro;
-    complemento = pedido.complemento;
-    formaPagamento = pedido.formaPagamento;
-    /*endereco = "Rua dom augusto";
-    numero = 123;
-    formaPagamento = "Cartão";*/
-    valorDinheiro = pedido.valorDinheiro ?? 0;
-    valorPedido = pedido.valorPedido ?? 0;
+  PedidoModel _pedido;
+  // _PedidoServiceBase() {}
+
+  void setPedido(PedidoModel p) {
+    _pedido = p;
+    _setFormulario();
+  }
+
+  void novoForm() {
+    _pedido = PedidoModel();
+
+    endereco = "";
+    numero = 0;
+    bairro = "";
+    complemento = "";
+    formaPagamento = "Selecione";
+    valorDinheiro = 0;
+    valorPedido = 0;
+  }
+
+  void _setFormulario() {
+    if (this._pedido != null) {
+      endereco = _pedido.endereco;
+      numero = _pedido.numero;
+      bairro = _pedido.bairro;
+      complemento = _pedido.complemento;
+      formaPagamento = _pedido.formaPagamento ?? "";
+      valorDinheiro = _pedido.valorDinheiro ?? 0;
+      valorPedido = _pedido.valorPedido ?? 0;
+    }
   }
 
   @observable
@@ -133,7 +151,7 @@ abstract class _PedidoServiceBase with Store {
     // print("uuid: " + pedido.uuid);
     await calculaValorEntrega();
     final cad = PedidoModel(
-      uuid: pedido.uuid,
+      uuid: _pedido != null ? _pedido.uuid : null,
       endereco: endereco,
       numero: numero,
       bairro: bairro,
